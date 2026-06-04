@@ -1,0 +1,25 @@
+# Byte-compiled / optimized files
+__pycache__/
+*.py[cod]
+
+# Virtual environments
+venv/
+.venv/
+env/
+
+# Robot Framework run artifacts
+results/
+output.xml
+log.html
+report.html
+selenium-screenshot-*.png
+geckodriver-*.log
+*.log
+
+# Robocop linter cache
+.robocop_cache/
+
+# pabot parallel-execution artifacts
+.pabotsuitenames
+pabot_results/
+

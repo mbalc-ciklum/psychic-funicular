@@ -1,0 +1,39 @@
+[project]
+name = "saucedemo-login-tests"
+version = "0.1.0"
+description = "Robot Framework + SeleniumLibrary login tests for saucedemo.com (Page Object, relative XPath)."
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "robotframework==7.4.2",
+    "robotframework-pabot>=5.2.2",
+    "robotframework-seleniumlibrary==6.9.0",
+    "selenium==4.44.0",
+]
+
+# Development-only tooling (linter/formatter). Installed by `uv sync` together
+# with the runtime dependencies; excluded from the published project metadata.
+[dependency-groups]
+dev = [
+    "pre-commit>=4.6.0",
+    "robotframework-robocop>=6.0",
+]
+
+[tool.uv]
+# This is a test project, not an installable package.
+package = false
+
+# ---------------------------------------------------------------------------
+# Robocop - Robot Framework linter & formatter (https://robocop.dev).
+# Strict configuration: the *complete* built-in rule set is enabled (including
+# the non-default rules such as the RF 7.3 type-annotation checks) and findings
+# of any severity (threshold = I) make the run fail. Line length stays at the
+# Robocop default of 120 (relative XPath locators are short).
+# ---------------------------------------------------------------------------
+[tool.robocop.lint]
+select = ["ALL"]
+threshold = "I"
+
+[tool.robocop.format]
+line_length = 120
+

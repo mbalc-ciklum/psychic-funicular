@@ -1,0 +1,13 @@
+# Pip fallback for the *runtime* dependencies.
+#
+# The project is primarily managed with uv (see pyproject.toml + uv.lock):
+#     uv sync           # installs runtime + dev (Robocop) into .venv
+#
+# This file is provided only for environments without uv. It does NOT include
+# the dev tooling (Robocop); install that with `pip install robotframework-robocop`.
+# Tested with Python 3.14 on Linux (Chrome 149).
+robotframework==7.4.2
+robotframework-pabot>=5.2.2
+robotframework-seleniumlibrary==6.9.0
+selenium==4.44.0
+

@@ -1,0 +1,8 @@
+repos:
+  - repo: local
+    hooks:
+      - id: robocop-check
+        name: Robocop strict lint
+        entry: uv run robocop check --no-cache
+        language: system
+        pass_filenames: false
