@@ -21,7 +21,9 @@ The suite runs with **Chrome** and **Firefox** on both **Windows** and **Linux**
 ## Project layout
 
 ```
-PythonProject/
+Project/
+├── .github/workflows/
+|   └──└── robot-tests.yml           # Example Github Action worflow defition that runs the tests
 ├── tests/
 │   ├── valid_login.robot            # Happy path login scenario
 │   └── invalid_login.robot          # Data-driven invalid login scenarios
@@ -167,6 +169,17 @@ uv run robocop check          # lint
 uv run robocop format --check # formatting check (no changes)
 uv run robocop format         # apply formatting
 ```
+
+---
+
+### GitHub Actions
+
+The repository includes sample GitHub Action `.github/workflows/robot-tests.yml` for CI execution.
+
+The workflow installs dependencies with `uv`, runs Robocop linting, verifies
+Robot Framework formatting, performs a dry run, executes the UI tests on Chrome
+and Firefox, and uploads Robot reports as artifacts. A daily early-morning UTC
+`schedule` trigger is included in the YAML but commented out/disabled.
 
 ---
 

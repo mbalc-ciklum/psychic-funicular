@@ -1,0 +1,62 @@
+name: Robot Framework UI Tests
+
+on:
+  workflow_dispatch:
+
+  # Disabled scheduled trigger. Uncomment to run daily in the early morning UTC.
+  # schedule:
+  #   - cron: "0 3 * * *"
+
+jobs:
+  robot-tests:
+    name: Robot tests on Chrome and Firefox
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v6
+        with:
+          enable-cache: true
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Install project dependencies
+        run: uv sync
+
+      - name: Show browser versions
+        run: |
+          google-chrome --version
+          firefox --version
+      # if browsers are not available, we may need to install them or use a different runner that has them pre-installed
+
+      - name: Run Robocop lint
+        run: uv run robocop check --no-cache
+
+      - name: Check Robot Framework formatting
+        run: uv run robocop format --check --no-cache
+
+      - name: Dry run Robot suites
+        run: uv run robot --dryrun --outputdir results/dryrun tests/
+
+      - name: Run UI tests on Chrome and Firefox
+        run: bash ./run_tests.sh
+
+      - name: Upload Robot Framework reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: robot-framework-results
+          path: |
+            results/**/*.xml
+            results/**/*.html
+            results/**/*.png
+            results/**/*.log
+          if-no-files-found: ignore
+          retention-days: 14
