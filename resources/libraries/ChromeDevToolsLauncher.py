@@ -59,8 +59,8 @@ class ChromeDevToolsLauncher:
             f"--user-data-dir={profile}",
             "--no-first-run",
             "--no-default-browser-check",
-            "--no-sandbox",
             "--disable-dev-shm-usage",
+            "--incognito",
             "--disable-gpu",
             "about:blank",
         ]
@@ -85,6 +85,16 @@ class ChromeDevToolsLauncher:
             self._processes.pop(address, None)
             self._terminate_process(process)
             shutil.rmtree(profile, ignore_errors=True)
+
+    @keyword
+    def keep_attached_chrome_focused(self) -> None:
+        from robot.libraries.BuiltIn import BuiltIn
+
+        selenium = BuiltIn().get_library_instance("SeleniumLibrary")
+        try:
+            selenium.driver.execute_cdp_cmd("Emulation.setFocusEmulationEnabled", {"enabled": True})
+        except Exception as error:  # noqa: BLE001
+            logger.warn(f"Could not enable Chrome focus emulation: {error}")
 
     @staticmethod
     def _terminate_process(process: subprocess.Popen) -> None:

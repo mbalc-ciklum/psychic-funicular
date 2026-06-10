@@ -21,6 +21,9 @@ ${FIREFOX_BINARY: str}          ${EMPTY}
 
 ${CHROME_LOOPBACK_FIX: bool}    ${FALSE}
 
+${WINDOW_WIDTH: int}            ${1920}
+${WINDOW_HEIGHT: int}           ${1080}
+
 
 *** Keywords ***
 Open SauceDemo Login Page
@@ -33,6 +36,10 @@ Open SauceDemo Login Page
         ${options: str}=    Resolve Browser Options
     END
     Open Browser    ${LOGIN_URL}    browser=${BROWSER}    options=${options}
+    IF    ${CHROME_LOOPBACK_FIX} and "chrome" in "${BROWSER}".lower()
+        Keep Attached Chrome Focused
+    END
+    Set Window Size    ${WINDOW_WIDTH}    ${WINDOW_HEIGHT}
     Set Selenium Timeout    ${SELENIUM_TIMEOUT}
     Login Page Should Be Open
 
@@ -65,8 +72,12 @@ Resolve Browser Options
     ELSE
         ${options: str}=    Catenate    SEPARATOR=;${SPACE}
         ...    add_argument("--window-size=1920,1080")
+        ...    add_argument("--incognito")
+        ...    add_argument("--test-type")
         ...    add_argument("--no-sandbox")
         ...    add_argument("--disable-dev-shm-usage")
+        ...    add_argument("--disable-gpu")
+        ...    add_experimental_option("excludeSwitches", ["enable-automation"])
         IF    ${HEADLESS}
             ${options: str}=    Catenate    SEPARATOR=;${SPACE}    ${options}    add_argument("--headless=new")
         END
