@@ -20,3 +20,5 @@ ${PASSWORD_REQUIRED_MESSAGE: str}       Epic sadface: Password is required
 
 # For parameterized locator example
 ${INVENTORY_SAMPLE_PRODUCT: str}        Sauce Labs Backpack
+
+${PURCHASE_SUCCESS_MESSAGE: str}        Thank you for your order!
